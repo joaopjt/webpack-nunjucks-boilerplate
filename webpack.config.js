@@ -1,6 +1,29 @@
+const webpack = require('webpack');
 const path = require('path');
+const glob = require('glob');
 const extractTextPlugin = require('extract-text-webpack-plugin');
-const onProd = (process.env.NODE_ENV === 'prod') ? true : false;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const isDev = (process.env.NODE_ENV === 'development') ? true : false;
+const basePath = process.cwd();
+
+const nunjucksContext = require('./resources/data/index');
+const nunjucksOptions = JSON.stringify({
+  searchPaths: basePath + '/resources/html/',
+  context: nunjucksContext,
+  query: {
+    config: (isDev) ? path.resolve(basePath, '/resources/html/config.dev.js') : path.resolve(basePath, '/resources/html/config.prod.js')
+  }
+});
+
+const pages = glob.sync('**/*.njk', {
+  cwd: path.join(basePath, 'resources/html/pages/'),
+  root: '/',
+}).map(page => new HtmlWebpackPlugin({
+  filename: page.replace('njk', 'html'),
+  template: `html/pages/${page}`,
+}));
+
 
 module.exports = {
   entry: {
@@ -14,17 +37,27 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        loader: 'eslint-loader',
+        options: {
+          emitError: true,
+          emitWarning: true
+        },
+        enforce: 'pre'
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        include: [
+          './resources/data/index.js'
+        ],
         loader: 'babel-loader'
       },
       {
         test: /\.s[ac]ss/,
         use: extractTextPlugin.extract({
           use: [
-            {
-              loader: "css-loader",
-              options: {
-                url: false
-              }
+            { 
+              loader: "css-loader?url:false"
             },
             {
               loader: "sass-loader"
@@ -32,19 +65,25 @@ module.exports = {
           ],
           fallback: "style-loader"
         })
+      },
+      {
+        test: /\.(njk|nunjucks)$/,
+        loader: ['html-loader', `nunjucks-html-loader?${nunjucksOptions}`]
       }
     ]
   },
   output: {
-    path: process.cwd() + '/dist',
+    path: basePath + '/dist',
     filename: 'js/bundle.js'
   },
   plugins: [
-    new extractTextPlugin('css/main.css')
+    ...pages,
+    new extractTextPlugin('css/main.css'),
+    new webpack.HotModuleReplacementPlugin(),
   ]
 }
 
-if (onProd) {
+if (!isDev) {
   module.exports.plugins.push(
     new webpack.optimize.UglifyJsPlugin()
   )

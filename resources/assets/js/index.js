@@ -1,6 +1,12 @@
-import Vue from 'vue';
+class Welcome {
+  constructor(name) {
+    this.name = name;
+  }
 
-const app = new Vue({
-  app: '#app',
-  data: {}
-});
+  hello() {
+    alert(`Welcome ${this.name}`);
+  }
+}
+
+const say = new Welcome('John');
+say.hello();
