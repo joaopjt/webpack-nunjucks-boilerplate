@@ -1,6 +1,4 @@
-export default function () {
-  return {
-    foo: 'bar',
-    user: 'John Doe'  
-  }
+module.exports = {
+  foo: 'bar',
+  user: 'John Doe'
 }
