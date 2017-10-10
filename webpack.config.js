@@ -1,6 +1,27 @@
 const path = require('path');
+const glob = require('glob');
 const extractTextPlugin = require('extract-text-webpack-plugin');
-const onProd = (process.env.NODE_ENV === 'prod') ? true : false;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const isDev = (process.env.NODE_ENV === 'development') ? true : false;
+
+const nunjucksContext = require('./resources/data/index');
+const nunjucksOptions = JSON.stringfy({
+  searchPaths: process.cwd() + '/resources/html/',
+  context: nunjucksContext,
+  query: {
+    config: process.cwd() + '/resources/html/config.dev.js'
+  }
+});
+
+const pages = glob.sync('**/*.njk', {
+  cwd: path.join(sourceDir, 'html/pages/'),
+  root: '/',
+}).map(page => new HtmlWebpackPlugin({
+  filename: page.replace('njk', 'html'),
+  template: `html/pages/${page}`,
+}));
+
 
 module.exports = {
   entry: {
@@ -32,6 +53,11 @@ module.exports = {
           ],
           fallback: "style-loader"
         })
+      },
+      {
+        test: /\.(njk|nunjucks)$/,
+        loader: `nunjucks-loader?${nunjucksOptions}`,
+        options: nunjucksOptions
       }
     ]
   },
@@ -40,11 +66,12 @@ module.exports = {
     filename: 'js/bundle.js'
   },
   plugins: [
+    ...pages,
     new extractTextPlugin('css/main.css')
   ]
 }
 
-if (onProd) {
+if (!isDev) {
   module.exports.plugins.push(
     new webpack.optimize.UglifyJsPlugin()
   )
