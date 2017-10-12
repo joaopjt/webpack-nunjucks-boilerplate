@@ -4,3 +4,10 @@ body {
   background-color: $bg;
   margin: 0;
 }
+
+.demo {
+  display: block;
+  max-width: 600px;
+  margin: 40px auto;
+  text-align: center;
+}

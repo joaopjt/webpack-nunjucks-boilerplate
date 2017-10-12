@@ -1,3 +1,4 @@
 {
-  "env": "development"
+  "env": "development",
+  "image_src": "../../assets/images/"
 }

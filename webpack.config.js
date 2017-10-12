@@ -75,16 +75,23 @@ module.exports = {
       {
         test: /\.(njk|nunjucks)$/,
         loader: ['html-loader', `nunjucks-html-loader?${nunjucksOptions}`]
+      },
+      {
+        test: /\.(jpe?g|png|svg|gif)$/,
+        loader: 'file-loader',
+        options: {
+          name: (isDev) ? '[name].[ext]' : 'assets/images/[name].[hash:8].[ext]'
+        }
       }
     ]
   },
   output: {
     path: basePath + '/dist',
-    filename: 'js/bundle.js'
+    filename: 'assets/js/bundle.js'
   },
   plugins: [
     ...pages,
-    new extractTextPlugin('css/main.css')
+    new extractTextPlugin('assets/css/main.css')
   ]
 }
 
