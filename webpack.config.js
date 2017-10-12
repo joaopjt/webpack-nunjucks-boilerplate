@@ -5,6 +5,7 @@ const path = require('path');
 const glob = require('glob');
 const extractTextPlugin = require('extract-text-webpack-plugin');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const cleanWebpackPlugin = require('clean-webpack-plugin');
 const autoPrefixer = require('autoprefixer');
 
 const isDev = (process.env.NODE_ENV === 'development') ? true : false;
@@ -97,6 +98,7 @@ module.exports = {
 
 if (!isDev) {
   module.exports.plugins.push(
+    new cleanWebpackPlugin(['dist']),
     new webpack.optimize.UglifyJsPlugin()
   )
 }
