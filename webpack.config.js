@@ -8,12 +8,14 @@ const isDev = (process.env.NODE_ENV === 'development') ? true : false;
 const basePath = process.cwd();
 
 const nunjucksContext = require('./resources/data/index');
+const nunjucksDevConfig = require('./resources/html/config.dev.json');
+const nunjucksProdConfig = require('./resources/html/config.prod.json');
+
+nunjucksContext.config = (isDev) ? nunjucksDevConfig : nunjucksProdConfig;
+
 const nunjucksOptions = JSON.stringify({
   searchPaths: basePath + '/resources/html/',
-  context: nunjucksContext,
-  query: {
-    config: (isDev) ? path.resolve(basePath, '/resources/html/config.dev.js') : path.resolve(basePath, '/resources/html/config.prod.js')
-  }
+  context: nunjucksContext
 });
 
 const pages = glob.sync('**/*.njk', {
@@ -21,7 +23,7 @@ const pages = glob.sync('**/*.njk', {
   root: '/',
 }).map(page => new HtmlWebpackPlugin({
   filename: page.replace('njk', 'html'),
-  template: `html/pages/${page}`,
+  template: `resources/html/pages/${page}`,
 }));
 
 

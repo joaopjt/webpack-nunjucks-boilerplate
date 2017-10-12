@@ -4,7 +4,7 @@ class Welcome {
   }
 
   hello() {
-    alert(`Welcome ${this.name}`);
+    console.log(`Welcome ${this.name}`);
   }
 }
 
