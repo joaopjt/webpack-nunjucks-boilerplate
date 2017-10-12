@@ -2,7 +2,8 @@ const webpack = require('webpack');
 const path = require('path');
 const glob = require('glob');
 const extractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const htmlWebpackPlugin = require('html-webpack-plugin');
+const autoPrefixer = require('autoprefixer');
 
 const isDev = (process.env.NODE_ENV === 'development') ? true : false;
 const basePath = process.cwd();
@@ -21,7 +22,7 @@ const nunjucksOptions = JSON.stringify({
 const pages = glob.sync('**/*.njk', {
   cwd: path.join(basePath, 'resources/html/pages/'),
   root: '/',
-}).map(page => new HtmlWebpackPlugin({
+}).map(page => new htmlWebpackPlugin({
   filename: page.replace('njk', 'html'),
   template: `resources/html/pages/${page}`,
 }));
@@ -62,6 +63,9 @@ module.exports = {
               loader: "css-loader?url:false"
             },
             {
+              loader: "postcss-loader"
+            },
+            {
               loader: "sass-loader"
             }
           ],
@@ -81,7 +85,7 @@ module.exports = {
   plugins: [
     ...pages,
     new extractTextPlugin('css/main.css'),
-    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
 
