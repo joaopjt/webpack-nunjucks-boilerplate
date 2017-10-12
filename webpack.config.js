@@ -93,7 +93,13 @@ module.exports = {
   plugins: [
     ...pages,
     new extractTextPlugin('assets/css/main.css')
-  ]
+  ],
+  devServer: {
+    contentBase: basePath + '/resources',
+    hot: true,
+    open: true,
+    watchContentBase: true
+  }
 }
 
 if (!isDev) {
