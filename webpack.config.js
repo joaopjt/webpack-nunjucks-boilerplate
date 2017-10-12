@@ -1,3 +1,5 @@
+require('babel-polyfill');
+
 const webpack = require('webpack');
 const path = require('path');
 const glob = require('glob');
@@ -31,6 +33,7 @@ const pages = glob.sync('**/*.njk', {
 module.exports = {
   entry: {
     app: [
+      'babel-polyfill',
       './resources/assets/js/index.js',
       './resources/assets/scss/main.scss'
     ]
@@ -50,9 +53,6 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        include: [
-          './resources/data/index.js'
-        ],
         loader: 'babel-loader'
       },
       {
@@ -84,8 +84,7 @@ module.exports = {
   },
   plugins: [
     ...pages,
-    new extractTextPlugin('css/main.css'),
-    new webpack.HotModuleReplacementPlugin()
+    new extractTextPlugin('css/main.css')
   ]
 }
 

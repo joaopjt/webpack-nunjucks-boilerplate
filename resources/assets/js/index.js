@@ -4,6 +4,7 @@ class Welcome {
   }
 
   hello() {
+    /* eslint-disable no-alert, no-console */
     console.log(`Welcome ${this.name}`);
   }
 }
