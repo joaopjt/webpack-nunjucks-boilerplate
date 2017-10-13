@@ -1,4 +1,7 @@
 {
+  "env": {
+    "broswer": true
+  },
   "extends": "airbnb-base",
   "rules": {
     "linebreak-style": ["error", "windows"]
