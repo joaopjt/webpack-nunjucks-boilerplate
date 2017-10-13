@@ -3,9 +3,10 @@ require('babel-polyfill');
 const webpack = require('webpack');
 const path = require('path');
 const glob = require('glob');
-const extractTextPlugin = require('extract-text-webpack-plugin');
-const htmlWebpackPlugin = require('html-webpack-plugin');
-const cleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const StyleLintPlugin = require('stylelint-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const autoPrefixer = require('autoprefixer');
 
 const isDev = (process.env.NODE_ENV === 'development') ? true : false;
@@ -25,7 +26,7 @@ const nunjucksOptions = JSON.stringify({
 const pages = glob.sync('**/*.njk', {
   cwd: path.join(basePath, 'resources/html/pages/'),
   root: '/',
-}).map(page => new htmlWebpackPlugin({
+}).map(page => new HtmlWebpackPlugin({
   filename: page.replace('njk', 'html'),
   template: `resources/html/pages/${page}`,
 }));
@@ -58,7 +59,7 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss/,
-        use: extractTextPlugin.extract({
+        use: ExtractTextPlugin.extract({
           use: [
             { 
               loader: "css-loader?url:false"
@@ -92,7 +93,8 @@ module.exports = {
   },
   plugins: [
     ...pages,
-    new extractTextPlugin('assets/css/main.css')
+    new StyleLintPlugin({ syntax: 'scss' }),
+    new ExtractTextPlugin('assets/css/main.css')
   ],
   devServer: {
     contentBase: basePath + '/resources',
@@ -104,7 +106,7 @@ module.exports = {
 
 if (!isDev) {
   module.exports.plugins.push(
-    new cleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['dist']),
     new webpack.optimize.UglifyJsPlugin()
   )
 }
