@@ -1,6 +1,6 @@
 {
   "env": {
-    "browser": true
+    "broswer": true
   },
   "extends": "airbnb-base",
   "rules": {
