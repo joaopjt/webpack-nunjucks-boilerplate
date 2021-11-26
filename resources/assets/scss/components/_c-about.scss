@@ -1,0 +1,121 @@
+.c-about {
+  background-color: $fun-blue;
+  color: $white;
+  display: block;
+  font-family: $main-font-family;
+  margin-bottom: 90px;
+  padding: 7px 0 10px;
+  padding-left: 50px;
+  position: relative;
+  text-align: right;
+  width: 586px;
+
+  &::before {
+    content: '';
+    background-color: $fun-blue;
+    width: 90px;
+    left: 0;
+    top: 0;
+    position: absolute;
+    height: 100%;
+    transform: translateX(-100%);
+  }
+
+  &::after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+
+  &__title {
+    display: block;
+    float: left;
+    font-family: inherit;
+    font-size: 29px;
+    font-weight: 500;
+    line-height: 40px;
+    margin: 27px 0;
+    position: relative;
+    text-align: left;
+    width: auto;
+
+    &::after {
+      background: url('../images/presentation.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      bottom: -2px;
+      content: '';
+      display: block;
+      height: 64px;
+      position: absolute;
+      right: -25px;
+      transform: translateX(100%);
+      width: 66px;
+    }
+  }
+
+  &__text {
+    float: left;
+    font-size: 19px;
+    line-height: 22px;
+    margin-bottom: 22px;
+    margin-right: 35px;
+    text-align: left;
+
+    &--hidden {
+      opacity: 0;
+      height: 0;
+    }
+  }
+
+  &__read-more {
+    background-color: $fun-blue;
+    border: 1px solid $white;
+    color: $white;
+    cursor: pointer;
+    display: inline-block;
+    float: right;
+    font-size: 19px;
+    font-weight: 500;
+    margin-right: 35px;
+    padding: 4px 5px;
+    width: auto;
+  }
+}
+
+@include respond-to(mobile-tablet) {
+  .c-about {
+    margin-bottom: 40px;
+    width: auto;
+  }
+}
+
+@include respond-to(mobile) {
+  .c-about {
+    padding-left: 25px;
+    width: auto;
+
+    &::before {
+      content: unset;
+    }
+
+    &__title {
+      font-size: 22px;
+      line-height: 24px;
+
+      &::after {
+        right: -10px;
+        height: 40px;
+        width: 40px;
+      }
+    }
+
+    &__text {
+      font-size: 18px;
+    }
+
+    &__read-more {
+      margin-right: 25px;
+    }
+  }
+}

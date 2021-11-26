@@ -1,0 +1,20 @@
+.t-container {
+  box-sizing: border-box;
+  display: block;
+  margin: 0 auto;
+  max-width: 1020px;
+  position: relative;
+  width: 100%;
+
+  &::after {
+    display: block;
+    content: '';
+    clear: both;
+  }
+}
+
+@include respond-to(mobile-tablet) {
+  .t-container {
+    padding: 0 20px;
+  }
+}

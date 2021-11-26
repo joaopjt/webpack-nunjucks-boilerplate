@@ -1,0 +1,13 @@
+.b-base {
+  background-color: $neutral-color-10;
+  margin: 0;
+  position: relative;
+}
+
+.b-base__content {
+  background-color: $neutral-color-10;
+  display: block;
+  margin: 0 auto;
+  max-width: 1200px;
+  width: 100%;
+}

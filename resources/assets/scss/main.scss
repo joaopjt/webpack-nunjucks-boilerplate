@@ -1,13 +1,29 @@
-$bg: #ccc;
+// Vendors
+@import '../../../node_modules/normalize.css/normalize';
 
-body {
-  background-color: $bg;
-  margin: 0;
-}
+// Settings
+@import 'settings/s-colors';
+@import 'settings/s-fonts';
+@import 'settings/s-settings';
 
-.demo {
-  display: block;
-  max-width: 600px;
-  margin: 40px auto;
-  text-align: center;
-}
+// Base
+@import 'base/b-base';
+
+// Tools
+@import 'tools/t-respond-to';
+@import 'tools/t-container';
+@import 'tools/t-clearfix';
+
+// Sections
+@import 'sections/s-content';
+
+// Objects
+
+// Components
+@import 'components/c-about';
+@import 'components/c-contact';
+@import 'components/c-footer';
+@import 'components/c-form';
+@import 'components/c-header';
+@import 'components/c-lightbox';
+@import 'components/c-partners';

@@ -1,0 +1,12 @@
+// Minaxi
+@font-face {
+  font-family: 'Minaxi';
+  src:
+    url('../fonts/Minaxi-HairlineText.woff2') format('woff2'),
+    url('../fonts/Minaxi-HairlineText.woff') format('woff'),
+    url('../fonts/Minaxi-HairlineText.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+$main-font-family: 'Minaxi';
